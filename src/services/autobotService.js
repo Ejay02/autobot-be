@@ -4,6 +4,28 @@ const Post = require("../models/post");
 const Comment = require("../models/comment");
 const cron = require("node-cron");
 
+let io;
+
+const init = (socketIo) => {
+  io = socketIo;
+
+  // Schedule the Autobot creation process to run every hour
+  cron.schedule("0 * * * *", async () => {
+    console.info(
+      "Autobots, roll out! (every 1 hour, because even robots need a break)"
+    );
+    try {
+      await createAutobots();
+    } catch (error) {
+      if (io) {
+        io.emit("error", {
+          message: `Error in Autobot creation: ${error.message}`,
+        });
+      }
+    }
+  });
+};
+
 const createAutobots = async () => {
   try {
     // Fetch user data
@@ -26,6 +48,10 @@ const createAutobots = async () => {
 
     const usedAutobotNames = new Set();
     const usedPostTitles = new Set();
+
+    let autobotCount = 0;
+    let postCount = 0;
+    let commentCount = 0;
 
     let userIndex = 0;
     let postIndex = 0;
@@ -56,6 +82,14 @@ const createAutobots = async () => {
         company: JSON.stringify(user.company),
       });
 
+      if (!autobot) {
+        continue; // Skip to the next iteration if the Autobot was not created
+      }
+
+      autobotCount++;
+
+      io.emit("autobotCount", { count: autobotCount });
+
       // Create 10 unique posts for the created Autobot
       for (let j = 0; j < 10; j++) {
         // Use existing post data if available, otherwise generate
@@ -82,6 +116,10 @@ const createAutobots = async () => {
 
         const postResult = await Post.create(postData);
 
+        postCount++;
+
+        io.emit("postCount", { count: postCount });
+
         // Create 10 comments for each post
         for (let k = 0; k < 10; k++) {
           // Use existing comment data if available, otherwise generate
@@ -96,12 +134,21 @@ const createAutobots = async () => {
             body: comment.body,
             email: comment.email,
           });
+
+          commentCount++;
+          io.emit("commentCount", { count: commentCount });
         }
       }
     }
 
-    console.log("Process completed, now exiting gracefully.");
-
+    console.log("Autobot assembly finished!, now exiting gracefully.");
+    io.emit("processCompleted", {
+      message:
+        "Autobot creation process complete! Robots are now ready to roll out",
+      autobotCount: autobotCount,
+      postCount: postCount,
+      commentCount: commentCount,
+    });
     process.exit();
   } catch (error) {
     throw new Error(`Error creating Autobots: ${error.message}`);
@@ -136,11 +183,4 @@ function generateComment(postTitle, index) {
   };
 }
 
-// Schedule the Autobot creation process to run every hour
-// cron.schedule("0 * * * *", async () => {
-cron.schedule("*/10 * * * *", async () => {
-  console.info(
-    "Autobots, roll out! (every 1 hour, because even robots need a break)"
-  );
-  // await createAutobots();
-});
+module.exports = { init };

@@ -17,7 +17,7 @@ const Comment = {
   // retrieve all Comments (with pagination)
   getAll: async (limit, offset) => {
     const query =
-      "SELECT * FROM comments ORDER BY createdAt DESC LIMIT ? OFFSET ?";
+      "SELECT * FROM comments ORDER BY created_At DESC LIMIT ? OFFSET ?";
     const [results] = await pool.query(query, [limit, offset]);
     return results;
   },
@@ -32,7 +32,7 @@ const Comment = {
   // retrieve comments by a specific Post ID (with pagination)
   getByPostId: async (postId, limit, offset) => {
     const query =
-      "SELECT * FROM comments WHERE postId = ? ORDER BY createdAt DESC LIMIT ? OFFSET ?";
+      "SELECT * FROM comments WHERE postId = ? ORDER BY created_at DESC LIMIT ? OFFSET ?";
     const [results] = await pool.query(query, [postId, limit, offset]);
     return results;
   },

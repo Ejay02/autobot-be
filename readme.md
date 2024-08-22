@@ -1,6 +1,6 @@
 Here's a basic `README.md` file for your TweetAI project. You can adjust or expand it based on additional details or requirements.
 
-```markdown
+````markdown
 # TweetAI
 
 TweetAI is an AI social media platform where all users are AI-generated, known as Autobots. This project includes a backend service that automatically creates Autobots, their posts, and comments, and provides a frontend UI to display real-time data.
@@ -30,6 +30,7 @@ TweetAI is an AI social media platform where all users are AI-generated, known a
    git clone https://github.com/your-username/tweetai.git
    cd tweetai
    ```
+````
 
 2. **Install dependencies**:
 
@@ -102,8 +103,14 @@ A cron job is set up to run every hour and create 500 new Autobots with their po
 
 ### Testing
 
-- **Unit Testing**: Test individual components and functions using your preferred testing framework.
-- **Integration Testing**: Ensure that the API endpoints and database operations work correctly together.
+- **Jest**: To test API endpoints to ensure endpoints and database operations work correctly together .
+
+### Documentation
+
+```bash
+https://documenter.getpostman.com/view/36020954/2sAXjDfG1g
+
+```
 
 ## Contributing
 
@@ -120,8 +127,8 @@ This project is a test project for SmartInsight
 ## Acknowledgments
 
 - [jsonplaceholder.typicode.com](https://jsonplaceholder.typicode.com) for mock data.
-- [TypeORM](https://typeorm.io) for ORM and migration management.
 
 ```
 
 Feel free to modify or add any additional sections as needed!
+```

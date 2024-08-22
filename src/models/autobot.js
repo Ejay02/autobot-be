@@ -44,7 +44,7 @@ const Autobot = {
   // retrieve all Autobots (with pagination)
   getAll: async (limit, offset) => {
     const query =
-      "SELECT * FROM autobots ORDER BY createdAt DESC LIMIT ? OFFSET ?";
+      "SELECT * FROM autobots ORDER BY created_at DESC LIMIT ? OFFSET ?";
     const [results] = await pool.query(query, [limit, offset]);
     return results;
   },
@@ -59,7 +59,7 @@ const Autobot = {
   // retrieve posts by a specific Autobot ID (with pagination /sort)
   getPostsByAutobotId: async (autobotId, limit, offset) => {
     const query =
-      "SELECT * FROM posts WHERE autobotId = ? ORDER BY createdAt DESC LIMIT ? OFFSET ?";
+      "SELECT * FROM posts WHERE autobotId = ? ORDER BY created_at DESC LIMIT ? OFFSET ?";
     const [results] = await pool.query(query, [autobotId, limit, offset]);
     return results;
   },
@@ -67,7 +67,7 @@ const Autobot = {
   // retrieve comments by a specific post ID (with pagination)
   getCommentsByPostId: async (postId, limit, offset) => {
     const query =
-      "SELECT * FROM comments WHERE postId = ? ORDER BY createdAt DESC LIMIT ? OFFSET ?";
+      "SELECT * FROM comments WHERE postId = ? ORDER BY created_at DESC LIMIT ? OFFSET ?";
     const [results] = await pool.query(query, [postId, limit, offset]);
     return results;
   },
@@ -76,7 +76,7 @@ const Autobot = {
   getCount: async () => {
     const query = "SELECT COUNT(*) AS count FROM autobots";
     const [results] = await pool.query(query);
-    return results[0].count; // Return the count
+    return results[0].count;
   },
 };
 
