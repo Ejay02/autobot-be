@@ -137,6 +137,10 @@ function generateComment(postTitle, index) {
 }
 
 // Schedule the Autobot creation process to run every hour
-cron.schedule("0 * * * *", async () => {
-  await createAutobots();
+// cron.schedule("0 * * * *", async () => {
+cron.schedule("*/10 * * * *", async () => {
+  console.info(
+    "Autobots, roll out! (every 1 hour, because even robots need a break)"
+  );
+  // await createAutobots();
 });

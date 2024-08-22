@@ -15,6 +15,7 @@ exports.up = async function (knex) {
       .inTable("autobots")
       .onDelete("CASCADE") // If an Autobot is deleted, the posts are also deleted
       .onUpdate("CASCADE"); // If an Autobot's ID is updated, the posts will also be updated
+      table.timestamps(true, true);
   });
 };
 

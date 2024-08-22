@@ -15,7 +15,8 @@ const Post = {
 
   // Method to retrieve all Posts (with pagination)
   getAll: async (limit, offset) => {
-    const query = "SELECT * FROM posts LIMIT ? OFFSET ?";
+    const query =
+      "SELECT * FROM posts ORDER BY createdAt DESC  LIMIT ? OFFSET ?";
     const [results] = await pool.query(query, [limit, offset]);
     return results;
   },
@@ -29,24 +30,25 @@ const Post = {
 
   // Method to retrieve posts by a specific Autobot ID (with pagination)
   getByAutobotId: async (autobotId, limit, offset) => {
-    const query = "SELECT * FROM posts WHERE autobotId = ? LIMIT ? OFFSET ?";
+    const query =
+      "SELECT * FROM posts WHERE autobotId = ? ORDER BY createdAt DESC LIMIT ? OFFSET ?";
     const [results] = await pool.query(query, [autobotId, limit, offset]);
     return results;
   },
 
-  // Method to get the count of all Posts for a specific Autobot
-  getCountByAutobotId: async (autobotId) => {
-    const query = "SELECT COUNT(*) AS count FROM posts WHERE autobotId = ?";
-    const [results] = await pool.query(query, [autobotId]);
-    return results[0].count; // Return the count
-  },
+  // // Method to get the count of all Posts for a specific Autobot
+  // getCountByAutobotId: async (autobotId) => {
+  //   const query = "SELECT COUNT(*) AS count FROM posts WHERE autobotId = ?";
+  //   const [results] = await pool.query(query, [autobotId]);
+  //   return results[0].count;
+  // },
 
-  // Method to get the count of all Posts (for general purposes)
-  getCount: async () => {
-    const query = "SELECT COUNT(*) AS count FROM posts";
-    const [results] = await pool.query(query);
-    return results[0].count; // Return the count
-  },
+  // // Method to get the count of all Posts (for general purposes)
+  // getCount: async () => {
+  //   const query = "SELECT COUNT(*) AS count FROM posts";
+  //   const [results] = await pool.query(query);
+  //   return results[0].count;
+  // },
 };
 
 module.exports = Post;

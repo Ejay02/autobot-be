@@ -12,6 +12,7 @@ exports.up = async function (knex) {
     table.string("phone");
     table.string("website");
     table.text("company");
+    table.timestamps(true, true);
   });
 };
 

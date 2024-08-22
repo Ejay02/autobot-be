@@ -16,6 +16,7 @@ exports.up = async function (knex) {
       .inTable("posts")
       .onDelete("CASCADE")
       .onUpdate("CASCADE");
+      table.timestamps(true, true);
   });
 };
 
