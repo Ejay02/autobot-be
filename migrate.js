@@ -6,7 +6,6 @@ const db = knex(knexConfig);
 const runMigrations = async () => {
   try {
     await db.migrate.latest(); // Runs all pending migrations
-    console.log("Migrations completed successfully.");
   } catch (error) {
     console.error("Error running migrations:", error);
   } finally {

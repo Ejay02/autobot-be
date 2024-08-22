@@ -5,7 +5,7 @@ const dbConfig = require("../../config/dbConfig");
 const pool = mysql.createPool(dbConfig);
 
 const Autobot = {
-  // Method to create a new Autobot
+  // create a new Autobot
   create: async ({
     name,
     username,
@@ -41,35 +41,35 @@ const Autobot = {
     }
   },
 
-  // Method to retrieve all Autobots (with pagination)
+  // retrieve all Autobots (with pagination)
   getAll: async (limit, offset) => {
     const query = "SELECT * FROM autobots LIMIT ? OFFSET ?";
     const [results] = await pool.query(query, [limit, offset]);
     return results;
   },
 
-  // Method to retrieve a specific Autobot by ID
+  // retrieve a specific Autobot by ID
   getById: async (id) => {
     const query = "SELECT * FROM autobots WHERE id = ?";
     const [results] = await pool.query(query, [id]);
     return results[0]; // Return the first result
   },
 
-  // Method to retrieve posts by a specific Autobot ID (with pagination)
+  // retrieve posts by a specific Autobot ID (with pagination)
   getPostsByAutobotId: async (autobotId, limit, offset) => {
     const query = "SELECT * FROM posts WHERE autobotId = ? LIMIT ? OFFSET ?";
     const [results] = await pool.query(query, [autobotId, limit, offset]);
     return results;
   },
 
-  // Method to retrieve comments by a specific post ID (with pagination)
+  // retrieve comments by a specific post ID (with pagination)
   getCommentsByPostId: async (postId, limit, offset) => {
     const query = "SELECT * FROM comments WHERE postId = ? LIMIT ? OFFSET ?";
     const [results] = await pool.query(query, [postId, limit, offset]);
     return results;
   },
 
-  // Method to get the count of all Autobots (for UI display)
+  // get the count of all Autobots (for UI display)
   getCount: async () => {
     const query = "SELECT COUNT(*) AS count FROM autobots";
     const [results] = await pool.query(query);

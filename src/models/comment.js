@@ -5,7 +5,7 @@ const dbConfig = require("../../config/dbConfig");
 const pool = mysql.createPool(dbConfig);
 
 const Comment = {
-  // Method to create a new Comment
+  // create a new Comment
   create: async (comment) => {
     const query =
       "INSERT INTO comments (postId, name, body, email) VALUES (?, ?, ?, ?)";
@@ -14,39 +14,39 @@ const Comment = {
     return result;
   },
 
-  // Method to retrieve all Comments (with pagination)
+  // retrieve all Comments (with pagination)
   getAll: async (limit, offset) => {
     const query = "SELECT * FROM comments LIMIT ? OFFSET ?";
     const [results] = await pool.query(query, [limit, offset]);
     return results;
   },
 
-  // Method to retrieve a specific Comment by ID
+  // retrieve a specific Comment by ID
   getById: async (id) => {
     const query = "SELECT * FROM comments WHERE id = ?";
     const [results] = await pool.query(query, [id]);
-    return results[0]; // Return the first result
+    return results[0];
   },
 
-  // Method to retrieve comments by a specific Post ID (with pagination)
+  // retrieve comments by a specific Post ID (with pagination)
   getByPostId: async (postId, limit, offset) => {
     const query = "SELECT * FROM comments WHERE postId = ? LIMIT ? OFFSET ?";
     const [results] = await pool.query(query, [postId, limit, offset]);
     return results;
   },
 
-  // Method to get the count of all Comments for a specific Post
+  // get the count of all Comments for a specific Post
   getCountByPostId: async (postId) => {
     const query = "SELECT COUNT(*) AS count FROM comments WHERE postId = ?";
     const [results] = await pool.query(query, [postId]);
-    return results[0].count; // Return the count
+    return results[0].count;
   },
 
-  // Method to get the count of all Comments (for general purposes)
+  // get the count of all Comments (for general purposes)
   getCount: async () => {
     const query = "SELECT COUNT(*) AS count FROM comments";
     const [results] = await pool.query(query);
-    return results[0].count; // Return the count
+    return results[0].count;
   },
 };
 

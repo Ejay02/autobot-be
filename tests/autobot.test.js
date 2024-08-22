@@ -1,51 +1,52 @@
 const request = require("supertest");
-const app = require("../src/index");
+const { server, io } = require("../src/index");
 const Autobot = require("../src/models/autobot");
 
 describe("Autobot API Endpoints", () => {
   beforeAll(async () => {
-    // Optionally, set up your database or seed data here
+    await new Promise((resolve) => {
+      server.listen(5001, resolve);
+    });
   });
 
   afterAll(async () => {
-    // Clean up your database or close connections here
+    await new Promise((resolve) => {
+      server.close(resolve);
+    });
   });
 
-  test("GET /api/autobots should return all Autobots", async () => {
-    const response = await request(app).get("/api/autobots");
+  test("GET /api/autobots should return all Autobots with pagination", async () => {
+    const limit = 10;
+    const offset = 0;
+    const response = await request(server).get(
+      `/api/autobots?limit=${limit}&offset=${offset}`
+    );
     expect(response.statusCode).toBe(200);
-    expect(response.body).toBeInstanceOf(Array); // Expect an array of Autobots
+    expect(response.body).toBeInstanceOf(Array);
+    expect(response.body.length).toBeLessThanOrEqual(limit);
   });
 
-  test("POST /api/autobots should create a new Autobot", async () => {
-    const newAutobot = {
-      name: "Test Autobot",
-      username: "testautobot",
-      email: "testautobot@example.com",
-      address: JSON.stringify({ street: "123 Test St", city: "Test City" }),
-      phone: "123-456-7890",
-      website: "testautobot.com",
-      company: JSON.stringify({ name: "Test Company" }),
-    };
-
-    const response = await request(app).post("/api/autobots").send(newAutobot);
-    expect(response.statusCode).toBe(201);
-    expect(response.body).toHaveProperty("autobotId"); // Check if the response has an autobotId
-  });
-
-  test("GET /api/autobots/:id should return a specific Autobot", async () => {
-    const autobotId = 1; // Replace with a valid ID from your database
-    const response = await request(app).get(`/api/autobots/${autobotId}`);
+  test("GET /api/autobots/:id/posts should return posts for a specific Autobot with pagination", async () => {
+    const autobotId = 1;
+    const limit = 10;
+    const offset = 0;
+    const response = await request(server).get(
+      `/api/autobots/${autobotId}/posts?limit=${limit}&offset=${offset}`
+    );
     expect(response.statusCode).toBe(200);
-    expect(response.body).toHaveProperty("id", autobotId); // Check if the response contains the correct ID
+    expect(response.body).toBeInstanceOf(Array);
+    expect(response.body.length).toBeLessThanOrEqual(limit);
   });
 
-  test("GET /api/posts/:postId/comments should return comments for a specific post", async () => {
-    const postId = 1; // Replace with a valid post ID from your database
-    const response = await request(app).get(`/api/posts/${postId}/comments`);
+  test("GET /api/posts/:postId/comments should return comments for a specific post with pagination", async () => {
+    const postId = 1;
+    const limit = 10;
+    const offset = 0;
+    const response = await request(server).get(
+      `/api/posts/${postId}/comments?limit=${limit}&offset=${offset}`
+    );
     expect(response.statusCode).toBe(200);
-    expect(response.body).toBeInstanceOf(Array); // Expect an array of comments
+    expect(response.body).toBeInstanceOf(Array);
+    expect(response.body.length).toBeLessThanOrEqual(limit);
   });
-
-  // Add more tests as needed
 });

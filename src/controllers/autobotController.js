@@ -69,17 +69,6 @@ const getCommentsByPostId = async (req, res) => {
     const comments = await Comment.getByPostId(postId, limit, offset);
     res.status(200).json(comments);
   } catch (error) {
-    // console.log(error)
-    res.status(500).json({ error: error.message });
-  }
-};
-
-// Get the total count of Autobots
-const getAutobotCount = async (req, res) => {
-  try {
-    const count = await Autobot.getCount();
-    res.status(200).json({ count });
-  } catch (error) {
     res.status(500).json({ error: error.message });
   }
 };
@@ -90,5 +79,4 @@ module.exports = {
   getAutobotById,
   getPostsByAutobotId,
   getCommentsByPostId,
-  getAutobotCount,
 };

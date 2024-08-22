@@ -2,7 +2,6 @@ const axios = require("axios");
 const Autobot = require("../models/autobot");
 const Post = require("../models/post");
 const Comment = require("../models/comment");
-const fs = require("fs");
 const cron = require("node-cron");
 
 const createAutobots = async () => {
@@ -25,13 +24,30 @@ const createAutobots = async () => {
     );
     const comments = commentResponse.data;
 
-    const usedPostTitles = new Set(); // Set to track used post titles
+    const usedAutobotNames = new Set();
+    const usedPostTitles = new Set();
+
+    let userIndex = 0;
+    let postIndex = 0;
+    let commentIndex = 0;
 
     for (let i = 0; i < 500; i++) {
-      const user = users[i % users.length]; // Loop through users
+      // Use existing user data if available, otherwise generate
+      const user =
+        userIndex < users.length ? users[userIndex++] : generateUser(i);
+
+      let autobotName = user.name;
+      let uniqueAutobotName = autobotName;
+      let autobotCounter = 1;
+
+      // Ensure the Autobot name is unique
+      while (usedAutobotNames.has(uniqueAutobotName)) {
+        uniqueAutobotName = `${autobotName} (Clone ${autobotCounter++})`;
+      }
+      usedAutobotNames.add(uniqueAutobotName);
 
       const autobot = await Autobot.create({
-        name: user.name,
+        name: uniqueAutobotName,
         username: user.username,
         email: user.email,
         address: JSON.stringify(user.address),
@@ -42,57 +58,85 @@ const createAutobots = async () => {
 
       // Create 10 unique posts for the created Autobot
       for (let j = 0; j < 10; j++) {
-        let postTitle = `${user.username}'s Post ${j + 1}`; // Base title
+        // Use existing post data if available, otherwise generate
+        const post =
+          postIndex < posts.length
+            ? posts[postIndex++]
+            : generatePost(uniqueAutobotName, j);
+
+        let postTitle = `${uniqueAutobotName}'s Post: ${post.title}`;
         let uniqueTitle = postTitle;
 
         // Ensure the title is unique
         let counter = 1;
         while (usedPostTitles.has(uniqueTitle)) {
-          uniqueTitle = `${postTitle} (Duplicate ${counter++})`; // Modify title to make it unique
+          uniqueTitle = `${postTitle} (Duplicate ${counter++})`;
         }
+        usedPostTitles.add(uniqueTitle);
 
-        usedPostTitles.add(uniqueTitle); // Add the unique title to the set
-
-        const post = {
+        const postData = {
           autobotId: autobot.insertId,
           title: uniqueTitle,
-          body: `This is the body of ${uniqueTitle}.`, // Customizable body
+          body: post.body,
         };
 
-        const postResult = await Post.create(post);
+        const postResult = await Post.create(postData);
 
         // Create 10 comments for each post
         for (let k = 0; k < 10; k++) {
-          const comment = {
-            postId: postResult.insertId,
-            name: comments[k % comments.length].name,
-            body: comments[k % comments.length].body,
-            email: comments[k % comments.length].email,
-          };
+          // Use existing comment data if available, otherwise generate
+          const comment =
+            commentIndex < comments.length
+              ? comments[commentIndex++]
+              : generateComment(uniqueTitle, k);
 
-          await Comment.create(comment);
+          await Comment.create({
+            postId: postResult.insertId,
+            name: comment.name,
+            body: comment.body,
+            email: comment.email,
+          });
         }
       }
     }
-    // console.log("Process completed, now exiting gracefully.");
-    fs.appendFileSync(
-      "log.txt",
-      "Process completed, now exiting gracefully.\n"
-    );
+
+    console.log("Process completed, now exiting gracefully.");
+
     process.exit();
   } catch (error) {
     throw new Error(`Error creating Autobots: ${error.message}`);
-    process.exit(1);
   }
 };
 
-// Schedule the Autobot creation process to run every hour
-// cron.schedule("0 * * * *", () => {
+// Helper functions to generate data when API data is exhausted
+function generateUser(index) {
+  return {
+    name: `Generated User ${index}`,
+    username: `user${index}`,
+    email: `user${index}@example.com`,
+    address: { street: "Generated Street", city: "Generated City" },
+    phone: "000-000-0000",
+    website: `www.user${index}.com`,
+    company: { name: "Generated Company" },
+  };
+}
 
-cron.schedule("*/10 * * * *", async () => {
-  //10 minute
-  console.log("now Running the Autobot creation process every 10m...");
+function generatePost(autobotName, index) {
+  return {
+    title: `Generated Post ${index}`,
+    body: `This is a generated post body for ${autobotName}.`,
+  };
+}
+
+function generateComment(postTitle, index) {
+  return {
+    name: `Generated Commenter ${index}`,
+    body: `This is a generated comment for ${postTitle}.`,
+    email: `commenter${index}@example.com`,
+  };
+}
+
+// Schedule the Autobot creation process to run every hour
+cron.schedule("0 * * * *", async () => {
   await createAutobots();
 });
-
-module.exports = { createAutobots };

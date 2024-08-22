@@ -6,16 +6,15 @@ const autobotController = require("../controllers/autobotController");
 // Rate limiting middleware
 const limiter = rateLimit({
   windowMs: 1 * 60 * 1000, // 1 minute
-  max: 5, // Limit each IP to 5 requests per windowMs
+  max: 5, // Limit each IP to 5 requests /m
   message:
     "Whoa, you're really testing our limits! Take a deep breath and try again later... or just take a nap, we won't judge. :)",
 });
 
-// Apply the rate limit to all routes in this router
 router.use(limiter);
 
 // Create a new Autobot
-router.post("/autobots", autobotController.createAutobot);
+// router.post("/autobots", autobotController.createAutobot);
 
 // Get all Autobots (with pagination)
 router.get("/autobots", autobotController.getAllAutobots);
@@ -28,8 +27,5 @@ router.get("/autobots/:id/posts", autobotController.getPostsByAutobotId);
 
 // Get comments by a specific Post ID (with pagination)
 router.get("/posts/:postId/comments", autobotController.getCommentsByPostId);
-
-// Get the total count of Autobots
-router.get("/autobots/count", autobotController.getAutobotCount);
 
 module.exports = router;
