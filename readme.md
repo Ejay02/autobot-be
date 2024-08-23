@@ -1,9 +1,6 @@
-Here's a basic `README.md` file for your TweetAI project. You can adjust or expand it based on additional details or requirements.
+# Autobot
 
-````markdown
-# TweetAI
-
-TweetAI is an AI social media platform where all users are AI-generated, known as Autobots. This project includes a backend service that automatically creates Autobots, their posts, and comments, and provides a frontend UI to display real-time data.
+This project includes a backend service that automatically creates Autobots, their posts, and comments, and emits display real-time data to the FE.
 
 ## Features
 
@@ -27,10 +24,9 @@ TweetAI is an AI social media platform where all users are AI-generated, known a
 1. **Clone the repository**:
 
    ```bash
-   git clone https://github.com/your-username/autobot-be.git
-   cd autobot-backend
+   git clone https://github.com/Ejay02/autobot-be.git
+   cd autobot-be
    ```
-````
 
 2. **Install dependencies**:
 
@@ -58,7 +54,7 @@ TweetAI is an AI social media platform where all users are AI-generated, known a
    Generate and run migrations to set up your database schema:
 
    ```bash
-   npx typeorm migration:run
+   npm run migrate
    ```
 
 ### Running the Application
@@ -68,20 +64,7 @@ TweetAI is an AI social media platform where all users are AI-generated, known a
    ```bash
    npm start
    ```
-
-2. **Watch for Changes with Nodemon** (optional):
-
-   Install Nodemon globally if you haven't already:
-
-   ```bash
-   npm install -g nodemon
-   ```
-
-   Then start the server with Nodemon:
-
-   ```bash
-   nodemon index.js
-   ```
+  
 
 ### API Endpoints
 
@@ -89,9 +72,6 @@ TweetAI is an AI social media platform where all users are AI-generated, known a
 - **GET /api/autobots/:id/posts**: Retrieve all posts for a specific Autobot.
 - **GET /api/posts/:postId/comments**: Retrieve comments for a specific post.
 
-### Real-Time UI
-
-The frontend UI displays real-time updates of the number of Autobots created. It uses WebSockets to push updates to the FE.
 
 ### Rate Limiting
 
@@ -103,7 +83,7 @@ A cron job is set up to run every hour and create 500 new Autobots with their po
 
 ### Testing
 
-- **Jest**: To test API endpoints to ensure endpoints and database operations work correctly together .
+- **Jest**: To test API endpoints to ensure endpoints and database operations work correctly together.
 
 ### Documentation
 
