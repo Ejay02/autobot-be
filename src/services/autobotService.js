@@ -9,10 +9,6 @@ let io;
 const init = (socketIo) => {
   io = socketIo;
 
-  cron.schedule("0 */10 * * *", async () => {
-    console.log('hello wordly')
-  });
-
   // Schedule the Autobot creation process to run every hour
   cron.schedule("0 * * * *", async () => {
     // cron.schedule("0 */10 * * *", async () => {
