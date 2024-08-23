@@ -1,4 +1,4 @@
-name: Deploy to Render
+name: CI/CD Pipeline
 
 on:
   push:
@@ -21,6 +21,12 @@ jobs:
     - name: Install dependencies
       run: npm install
 
+    - name: Run tests
+      run: npm run test
+
+    - name: Run migrations
+      run: npm run migrate
+
     - name: Deploy to Render
       env:
         RENDER_API_KEY: ${{ secrets.RENDER_API_KEY }}
@@ -32,8 +38,3 @@ jobs:
           -H "Content-Type: application/json" \
           --data '{"serviceId":"'"$SERVICE_ID"'"}' \
           https://api.render.com/v1/services/$SERVICE_ID/deploys
-
-
-
-
-

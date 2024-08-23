@@ -1,20 +1,28 @@
 const express = require("express");
 const http = require("http");
 const socketIo = require("socket.io");
-const app = express();
+const cors = require("cors");
 const autobotRoutes = require("./routes/autobotRoutes");
 const autobotService = require("./services/autobotService");
 require("dotenv").config();
 
+const app = express();
 const PORT = process.env.PORT || 5555;
 
-const cors = require("cors");
-app.use(cors());
+// CORS configuration to allow all origins
+app.use(
+  cors({
+    origin: "*", // Allow all origins
+    methods: ["GET", "POST"],
+    allowedHeaders: ["Content-Type", "Authorization", "my-custom-header"],
+    credentials: true,
+  })
+);
 
 const server = http.createServer(app);
 const io = socketIo(server, {
   cors: {
-    origin: "http://localhost:5174",
+    origin: "*", // Allow all origins
     methods: ["GET", "POST"],
     allowedHeaders: ["Content-Type", "Authorization", "my-custom-header"],
     credentials: true,

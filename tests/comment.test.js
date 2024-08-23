@@ -1,12 +1,12 @@
 const request = require("supertest");
 const { server } = require("../src/index");
-W;
+
 const Comment = require("../src/models/comment");
 
 describe("Comment API Endpoints", () => {
   beforeAll(async () => {
     await new Promise((resolve) => {
-      server.listen(5001, resolve);
+      server.listen(5501, resolve);
     });
   });
 

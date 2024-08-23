@@ -5,7 +5,7 @@ const Autobot = require("../src/models/autobot");
 describe("Autobot API Endpoints", () => {
   beforeAll(async () => {
     await new Promise((resolve) => {
-      server.listen(5001, resolve);
+      server.listen(5501, resolve);
     });
   });
 
