@@ -141,6 +141,10 @@ const createAutobots = async () => {
       }
     }
 
+    // process.exit();
+  } catch (error) {
+    throw new Error(`Error creating Autobots: ${error.message}`);
+  } finally {
     console.log("Autobot assembly finished!, now exiting gracefully.");
     io.emit("processCompleted", {
       message:
@@ -149,9 +153,6 @@ const createAutobots = async () => {
       postCount: postCount,
       commentCount: commentCount,
     });
-    process.exit();
-  } catch (error) {
-    throw new Error(`Error creating Autobots: ${error.message}`);
   }
 };
 

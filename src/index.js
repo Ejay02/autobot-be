@@ -8,8 +8,18 @@ require("dotenv").config();
 
 const PORT = process.env.PORT || 5555;
 
+const cors = require("cors");
+app.use(cors());
+
 const server = http.createServer(app);
-const io = socketIo(server);
+const io = socketIo(server, {
+  cors: {
+    origin: "http://localhost:5174",
+    methods: ["GET", "POST"],
+    allowedHeaders: ["Content-Type", "Authorization", "my-custom-header"],
+    credentials: true,
+  },
+});
 
 // Handle WebSocket connections
 io.on("connection", (socket) => {

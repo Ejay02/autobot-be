@@ -21,10 +21,20 @@ const createAutobot = async (req, res) => {
 const getAllAutobots = async (req, res) => {
   const limit = parseInt(req.query.limit) || 10;
   const offset = parseInt(req.query.offset) || 0;
+  const fetchAll = req.query.all === "true";
 
   try {
-    const autobots = await Autobot.getAll(limit, offset);
-    res.status(200).json(autobots);
+    let autobots;
+    let totalCount;
+
+    if (fetchAll) {
+      autobots = await Autobot.getAll();
+      totalCount = autobots.length;
+    } else {
+      autobots = await Autobot.getAll(limit, offset);
+      totalCount = await Autobot.getCount();
+    }
+    res.status(200).json({ autobots, totalCount });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }

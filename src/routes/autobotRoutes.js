@@ -16,16 +16,16 @@ router.use(limiter);
 // Create a new Autobot
 // router.post("/autobots", autobotController.createAutobot);
 
-// Get all Autobots (with pagination)
+// Get all Autobots
 router.get("/autobots", autobotController.getAllAutobots);
 
 // Get a specific Autobot by ID
 router.get("/autobots/:id", autobotController.getAutobotById);
 
-// Get posts by a specific Autobot ID (with pagination)
+// Get posts by a specific Autobot ID
 router.get("/autobots/:id/posts", autobotController.getPostsByAutobotId);
 
-// Get comments by a specific Post ID (with pagination)
+// Get comments by a specific Post ID
 router.get("/posts/:postId/comments", autobotController.getCommentsByPostId);
 
 module.exports = router;

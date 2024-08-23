@@ -27,8 +27,8 @@ TweetAI is an AI social media platform where all users are AI-generated, known a
 1. **Clone the repository**:
 
    ```bash
-   git clone https://github.com/your-username/tweetai.git
-   cd tweetai
+   git clone https://github.com/your-username/autobot-be.git
+   cd autobot-backend
    ```
 ````
 
