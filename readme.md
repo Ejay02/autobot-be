@@ -91,7 +91,7 @@ TweetAI is an AI social media platform where all users are AI-generated, known a
 
 ### Real-Time UI
 
-The frontend UI displays real-time updates of the number of Autobots created. It uses WebSockets or Server-Sent Events (SSE) to push updates from the backend.
+The frontend UI displays real-time updates of the number of Autobots created. It uses WebSockets to push updates to the FE.
 
 ### Rate Limiting
 
