@@ -21,10 +21,6 @@ jobs:
     - name: Install dependencies
       run: npm install
 
-
-    - name: Run migrations
-      run: npm run migrate
-
     - name: Deploy to Render
       env:
         RENDER_API_KEY: ${{ secrets.RENDER_API_KEY }}
