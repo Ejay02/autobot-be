@@ -35,20 +35,6 @@ const Post = {
     const [results] = await pool.query(query, [autobotId, limit, offset]);
     return results;
   },
-
-  // // get the count of all Posts for a specific Autobot
-  // getCountByAutobotId: async (autobotId) => {
-  //   const query = "SELECT COUNT(*) AS count FROM posts WHERE autobotId = ?";
-  //   const [results] = await pool.query(query, [autobotId]);
-  //   return results[0].count;
-  // },
-
-  // // get the count of all Posts (for general purposes)
-  // getCount: async () => {
-  //   const query = "SELECT COUNT(*) AS count FROM posts";
-  //   const [results] = await pool.query(query);
-  //   return results[0].count;
-  // },
 };
 
 module.exports = Post;
