@@ -1,6 +1,6 @@
 # Autobot
 
-This project includes a backend service that automatically creates Autobots, their posts, and comments, and emits display real-time data to the FE.
+This project is a backend service that automatically creates Autobots, their posts, and comments, and emits display real-time data to the FE.
 
 ## Features
 
@@ -36,17 +36,17 @@ This project includes a backend service that automatically creates Autobots, the
 
 3. **Set up MySQL database**:
 
-   Create a MySQL database named `tweetai_db`. You can use the provided migration files to set up the necessary tables.
+   Create a MySQL database. You can use the provided migration files to set up the necessary tables.
 
 4. **Configure Environment Variables**:
 
    Create a `.env` file in the root directory and add your database configuration:
 
    ```
-   DB_HOST=localhost
-   DB_USER=root
-   DB_PASSWORD=password
-   DB_NAME=tweetai_db
+   DB_HOST=
+   DB_USER=
+   DB_PASSWORD=
+   DB_NAME=
    ```
 
 5. **Run Migrations**:
@@ -112,3 +112,7 @@ This project is a test project for SmartInsight
 
 Feel free to modify or add any additional sections as needed!
 ```
+
+# SIDE NOTE
+
+The {JSON} Placeholder has only 10 data stored for /users, since the task was for 500 unique hourly, I appended a random string to generate unique bots and titles.
