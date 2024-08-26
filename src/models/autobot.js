@@ -1,5 +1,6 @@
 const mysql = require("mysql2/promise");
 const dbConfig = require("../../config/dbConfig");
+const crypto = require("crypto");
 
 // Create a connection pool
 const pool = mysql.createPool(dbConfig);
